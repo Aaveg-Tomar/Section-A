@@ -63,6 +63,58 @@ public class BinarySearchT {
         }
     }
 
+    public  static Node delete(Node root ,int val)
+    {
+        if(root == null)
+        {
+            return null;
+        }
+
+        if(root.data > val)
+        {
+            root.left = delete(root.left , val);
+        }
+        else  if(root.data < val)
+        {
+            root.right = delete(root.right , val);
+        }
+        else{
+            // root.data == val;
+
+            //case 1 delete leaf node
+            if(root.left == null && root.right == null)
+            {
+                return null;
+            }
+
+            // case 2 node has only one child
+            if(root.left == null)
+            {
+                return root.right;
+            }
+            else if(root.right == null) {
+                return root.left;
+            }
+
+            // case 3 node have two children
+            Node Is  = inOrderScuccessor(root.right);
+            root.data = Is.data;
+            root.right = delete(root.right , val);
+        }
+
+        return root;
+    }
+
+    private static Node inOrderScuccessor(Node root) {
+       while (root.left != null)
+       {
+           root = root.left;
+       }
+       return root;
+    }
+
+
+
     public static void main(String[] args) {
         int[] arr = {5 , 7 , 1 , 3 , 8};
         Node root = null;
@@ -72,6 +124,8 @@ public class BinarySearchT {
         }
         inorder(root);
         System.out.println(search(root  , 3));
+        delete(root , 5);
+        System.out.println(root.data);
     }
 
 
